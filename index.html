@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>قصصي السحرية</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:         #f7f8fc;
+      --white:      #ffffff;
+      --surface:    #eef0f8;
+      --border:     #dde0ee;
+      --primary:    #3d5a99;
+      --primary-d:  #2c4278;
+      --primary-l:  #eef1fa;
+      --accent:     #f5a623;
+      --accent-l:   #fff8ee;
+      --text:       #1a1e2e;
+      --text-mid:   #4a4f6a;
+      --text-soft:  #8892b0;
+      --green:      #2d9e6b;
+      --green-l:    #edf8f3;
+      --red:        #c0392b;
+      --red-l:      #fdf0ee;
+      --radius:     14px;
+      --radius-sm:  9px;
+      --shadow:     0 2px 12px rgba(61,90,153,0.08);
+      --shadow-md:  0 6px 28px rgba(61,90,153,0.13);
+      --font:       'Tajawal', Arial, sans-serif;
+      --transition: 0.22s ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      min-height: 100vh;
+    }
+
+    /* ─── Header ─── */
+    header {
+      background: var(--primary);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 62px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.15rem;
+    }
+
+    .usage-counter {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.3rem 0.9rem;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.25);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .usage-counter.warning { background: rgba(245,166,35,0.3); border-color: var(--accent); }
+    .usage-counter.danger  { background: rgba(192,57,43,0.3);  border-color: #e74c3c; }
+
+    /* ─── Hero ─── */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, #5b7ec9 100%);
+      color: white;
+      text-align: center;
+      padding: 3rem 1.5rem 2rem;
+    }
+
+    .hero h1 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .hero p  { font-size: 1rem; opacity: 0.85; }
+
+    /* ─── Tabs ─── */
+    .tabs-wrapper {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 62px;
+      z-index: 90;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .tabs {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .tabs::-webkit-scrollbar { display: none; }
+
+    .tab {
+      flex: 1;
+      min-width: 130px;
+      padding: 1rem 0.5rem;
+      text-align: center;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-soft);
+      border-bottom: 3px solid transparent;
+      transition: all var(--transition);
+      white-space: nowrap;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .tab-icon { font-size: 1.3rem; }
+    .tab:hover { color: var(--primary); background: var(--primary-l); }
+    .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 700; }
+
+    /* ─── Main ─── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .tool-panel { display: none; }
+    .tool-panel.active { display: block; animation: fadeUp 0.3s ease; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Card ─── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-mid);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-title::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 1.1em;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    /* ─── Fields ─── */
+    .field { margin-bottom: 1.2rem; }
+    .field:last-child { margin-bottom: 0; }
+
+    label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      margin-bottom: 0.4rem;
+    }
+
+    textarea, select {
+      width: 100%;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      padding: 0.8rem 1rem;
+      font-family: var(--font);
+      font-size: 0.97rem;
+      transition: border-color var(--transition), box-shadow var(--transition);
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    textarea { resize: vertical; line-height: 1.7; }
+
+    textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(61,90,153,0.12);
+    }
+
+    .select-wrap { position: relative; }
+    .select-wrap::after {
+      content: '▾';
+      position: absolute;
+      left: 0.9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-soft);
+      pointer-events: none;
+    }
+
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    /* ─── Toggle chips ─── */
+    .toggle-group { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.3rem; }
+
+    .chip {
+      padding: 0.4rem 0.85rem;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text-mid);
+      font-size: 0.83rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      user-select: none;
+    }
+
+    .chip:hover { border-color: var(--primary); color: var(--primary); }
+    .chip.active { background: var(--primary-l); border-color: var(--primary); color: var(--primary); font-weight: 700; }
+
+    /* ─── Char counter ─── */
+    .field-meta { display: flex; justify-content: flex-end; margin-top: 0.3rem; }
+    .char-count { font-size: 0.78rem; color: var(--text-soft); }
+
+    /* ─── Button ─── */
+    .btn-primary {
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.5rem;
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      box-shadow: 0 4px 14px rgba(61,90,153,0.28);
+    }
+
+    .btn-primary:hover:not(:disabled) { background: var(--primary-d); transform: translateY(-1px); }
+    .btn-primary:active:not(:disabled) { transform: translateY(0); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* ─── Loading bar ─── */
+    .loading-bar { width: 100%; height: 3px; background: var(--border); border-radius: 2px; margin-bottom: 1.5rem; overflow: hidden; display: none; }
+    .loading-bar.active { display: block; }
+    .loading-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 2px; animation: loadBar 3s ease-in-out forwards; }
+    @keyframes loadBar { 0%{width:0%} 40%{width:55%} 80%{width:82%} 100%{width:92%} }
+
+    /* ─── Error ─── */
+    .error-box {
+      background: var(--red-l);
+      border: 1px solid #f5c6c2;
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.25rem;
+      color: var(--red);
+      font-size: 0.92rem;
+      display: none;
+      align-items: flex-start;
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+    }
+    .error-box.visible { display: flex; animation: fadeUp 0.3s ease; }
+
+    /* ─── Paywall ─── */
+    .paywall {
+      background: linear-gradient(135deg, #fff8ee, #fff3e0);
+      border: 2px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      display: none;
+      margin-bottom: 1.5rem;
+    }
+
+    .paywall.visible { display: block; animation: fadeUp 0.4s ease; }
+    .paywall-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .paywall h3 { font-size: 1.4rem; font-weight: 800; color: var(--text); margin-bottom: 0.5rem; }
+    .paywall p { color: var(--text-mid); margin-bottom: 1.5rem; line-height: 1.7; }
+
+    .btn-pay {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 0.9rem 2rem;
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all var(--transition);
+      box-shadow: 0 4px 14px rgba(245,166,35,0.35);
+    }
+
+    .btn-pay:hover { background: #e0941a; transform: translateY(-1px); }
+
+    .paywall-features {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .paywall-feat {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      font-weight: 500;
+    }
+
+    /* ─── Result ─── */
+    .result-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+      display: none;
+      margin-top: 1.5rem;
+    }
+
+    .result-card.visible { display: block; animation: fadeUp 0.4s ease; }
+
+    .result-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 0.7rem;
+    }
+
+    .result-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .result-label::before {
+      content: '✓';
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      background: var(--green);
+      color: white;
+      border-radius: 50%;
+      font-size: 0.65rem;
+      font-weight: 800;
+    }
+
+    .btn-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+
+    .btn-secondary {
+      padding: 0.45rem 1rem;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text-mid);
+      font-family: var(--font);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .btn-secondary:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-l); }
+
+    .output-text {
+      font-size: 1rem;
+      line-height: 2;
+      color: var(--text);
+      white-space: pre-line;
+    }
+
+    /* ─── Tips ─── */
+    .tip {
+      background: var(--primary-l);
+      border: 1px solid #c8d1ef;
+      border-radius: var(--radius-sm);
+      padding: 0.7rem 1rem;
+      font-size: 0.83rem;
+      color: var(--primary-d);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-bottom: 1.2rem;
+    }
+
+    /* ─── Promo code ─── */
+    .promo-section {
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .promo-input {
+      padding: 0.55rem 1rem;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      font-family: var(--font);
+      font-size: 0.9rem;
+      width: 180px;
+      text-align: center;
+      background: white;
+    }
+
+    .promo-input:focus { outline: none; border-color: var(--primary); }
+
+    .btn-promo {
+      padding: 0.55rem 1.1rem;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: var(--primary);
+      color: white;
+      font-family: var(--font);
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+
+    .btn-promo:hover { background: var(--primary-d); }
+
+    .promo-msg { font-size: 0.82rem; margin-top: 0.5rem; }
+    .promo-msg.ok  { color: var(--green); }
+    .promo-msg.err { color: var(--red); }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 650px) {
+      main { padding: 1.5rem 1rem 3rem; }
+      .card { padding: 1.25rem; }
+      .grid-3, .grid-2 { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 1.5rem; }
+      .tab { min-width: 100px; font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo">✨ قصصي السحرية</div>
+  <div class="usage-counter" id="usageCounter">🎁 متبقي: <span id="usageLeft">5</span> مجاناً</div>
+</header>
+
+<!-- Hero -->
+<div class="hero">
+  <h1>منصة الإبداع بالذكاء الاصطناعي</h1>
+  <p>قصص أطفال • سيناريوهات كرتون • روايات • أفلام سينمائية</p>
+</div>
+
+<!-- Tabs -->
+<div class="tabs-wrapper">
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('children')">
+      <span class="tab-icon">🧒</span>قصص الأطفال
+    </div>
+    <div class="tab" onclick="switchTab('cartoon')">
+      <span class="tab-icon">🎬</span>كرتون
+    </div>
+    <div class="tab" onclick="switchTab('novel')">
+      <span class="tab-icon">📚</span>روايات
+    </div>
+    <div class="tab" onclick="switchTab('cinema')">
+      <span class="tab-icon">🎥</span>سينما
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <!-- Paywall -->
+  <div class="paywall" id="paywall">
+    <div class="paywall-icon">🔓</div>
+    <h3>انتهت قصصك المجانية!</h3>
+    <p>لقد استخدمت قصصك الـ 5 المجانية.<br>احصل على <strong>200 توليد</strong> مقابل <strong>2$ فقط</strong> وواصل إبداعك!</p>
+    <a href="YOUR_GUMROAD_LINK" target="_blank" class="btn-pay">💳 اشترِ الآن بـ 2$</a>
+    <div class="paywall-features">
+      <span class="paywall-feat">✅ 200 توليد</span>
+      <span class="paywall-feat">✅ كل الأدوات</span>
+      <span class="paywall-feat">✅ كل اللغات</span>
+      <span class="paywall-feat">✅ بدون انتهاء</span>
+    </div>
+    <div class="promo-section">
+      <input class="promo-input" id="promoInput" placeholder="كود التفعيل" />
+      <button class="btn-promo" onclick="activateCode()">تفعيل</button>
+    </div>
+    <div class="promo-msg" id="promoMsg"></div>
+  </div>
+
+  <!-- Error -->
+  <div class="error-box" id="errorBox">
+    <span>⚠️</span><span id="errorMsg">حدث خطأ، يرجى المحاولة مرة أخرى.</span>
+  </div>
+
+  <!-- Loading bar -->
+  <div class="loading-bar" id="loadingBar">
+    <div class="loading-bar-fill" id="loadingFill"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       1) قصص الأطفال
+  ══════════════════════════════════════ -->
+  <div class="tool-panel active" id="panel-children">
+    <div class="card">
+      <div class="card-title">قصة للأطفال</div>
+      <div class="tip">💡 <span>مثال جيد: «أسد صغير يخاف من الظلام ويتعلم الشجاعة بمساعدة نجمة»</span></div>
+
+      <div class="field">
+        <label>فكرة القصة *</label>
+        <textarea id="c-idea" rows="3" maxlength="500" placeholder="اكتب فكرتك هنا..."></textarea>
+        <div class="field-meta"><span class="char-count"><span id="c-count">0</span>/500</span></div>
+      </div>
+
+      <div class="grid-3">
+        <div class="field">
+          <label>الفئة العمرية</label>
+          <div class="select-wrap">
+            <select id="c-age">
+              <option value="3-5">3 – 5 سنوات</option>
+              <option value="5-7">5 – 7 سنوات</option>
+              <option value="7-10">7 – 10 سنوات</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>نوع القصة</label>
+          <div class="select-wrap">
+            <select id="c-type">
+              <option>مغامرة</option>
+              <option>تعليمية</option>
+              <option>قبل النوم</option>
+              <option>مضحكة</option>
+              <option>قيم وأخلاق</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>اللغة</label>
+          <div class="select-wrap">
+            <select id="c-lang">
+              <option value="ar">🇸🇦 عربي</option>
+              <option value="en">🇬🇧 English</option>
+              <option value="fr">🇫🇷 Français</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>قيمة القصة <span style="color:var(--text-soft);font-weight:400">(اختياري)</span></label>
+        <div class="toggle-group" id="c-values">
+          <span class="chip" data-v="الصداقة">🤝 الصداقة</span>
+          <span class="chip" data-v="الشجاعة">🦁 الشجاعة</span>
+          <span class="chip" data-v="الأمانة">⭐ الأمانة</span>
+          <span class="chip" data-v="التعاون">🌿 التعاون</span>
+          <span class="chip" data-v="الصبر">🐢 الصبر</span>
+          <span class="chip" data-v="الكرم">🎁 الكرم</span>
+          <span class="chip" data-v="حب العلم">📚 حب العلم</span>
+        </div>
+      </div>
+
+      <div class="field" style="margin-bottom:0">
+        <label>الطول</label>
+        <div class="select-wrap">
+          <select id="c-length">
+            <option value="قصيرة (فقرة واحدة)">قصيرة</option>
+            <option value="متوسطة (3 فقرات)" selected>متوسطة</option>
+            <option value="طويلة (5 فقرات)">طويلة</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="generate('children')">✨ توليد القصة</button>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       2) سيناريو كرتون
+  ══════════════════════════════════════ -->
+  <div class="tool-panel" id="panel-cartoon">
+    <div class="card">
+      <div class="card-title">سيناريو فيلم كرتوني</div>
+      <div class="tip">💡 <span>مثال: «مجموعة أصدقاء حيوانات يبنون مدرسة في الغابة»</span></div>
+
+      <div class="field">
+        <label>فكرة الفيلم *</label>
+        <textarea id="ct-idea" rows="3" maxlength="600" placeholder="اكتب فكرة الفيلم الكرتوني..."></textarea>
+        <div class="field-meta"><span class="char-count"><span id="ct-count">0</span>/600</span></div>
+      </div>
+
+      <div class="grid-3">
+        <div class="field">
+          <label>عمر الجمهور</label>
+          <div class="select-wrap">
+            <select id="ct-age">
+              <option>3 – 6 سنوات</option>
+              <option>6 – 10 سنوات</option>
+              <option>10 – 15 سنة</option>
+              <option>عائلي (كل الأعمار)</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>مدة الفيلم</label>
+          <div class="select-wrap">
+            <select id="ct-duration">
+              <option>حلقة قصيرة (5 دقائق)</option>
+              <option>حلقة متوسطة (15 دقيقة)</option>
+              <option>فيلم قصير (30 دقيقة)</option>
+              <option>فيلم كامل (90 دقيقة)</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>اللغة</label>
+          <div class="select-wrap">
+            <select id="ct-lang">
+              <option value="ar">🇸🇦 عربي</option>
+              <option value="en">🇬🇧 English</option>
+              <option value="fr">🇫🇷 Français</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>نوع الكرتون</label>
+        <div class="toggle-group" id="ct-genre">
+          <span class="chip" data-v="مغامرة">🗺️ مغامرة</span>
+          <span class="chip" data-v="كوميدي">😂 كوميدي</span>
+          <span class="chip" data-v="تعليمي">📚 تعليمي</span>
+          <span class="chip" data-v="خيال علمي">🚀 خيال علمي</span>
+          <span class="chip" data-v="موسيقي">🎵 موسيقي</span>
+          <span class="chip" data-v="رياضي">⚽ رياضي</span>
+        </div>
+      </div>
+
+      <div class="field" style="margin-bottom:0">
+        <label>الشخصيات الرئيسية <span style="color:var(--text-soft);font-weight:400">(اختياري)</span></label>
+        <textarea id="ct-chars" rows="2" placeholder="مثال: أرنب شجاع، سلحفاة حكيمة، ثعلب ذكي..."></textarea>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="generate('cartoon')">🎬 توليد السيناريو</button>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       3) روايات
+  ══════════════════════════════════════ -->
+  <div class="tool-panel" id="panel-novel">
+    <div class="card">
+      <div class="card-title">رواية أدبية</div>
+      <div class="tip">💡 <span>مثال: «شاب يجد رسائل سرية لجدته تكشف تاريخاً عائلياً مجهولاً»</span></div>
+
+      <div class="field">
+        <label>فكرة الرواية *</label>
+        <textarea id="n-idea" rows="4" maxlength="700" placeholder="اكتب فكرتك وأحداثها الرئيسية..."></textarea>
+        <div class="field-meta"><span class="char-count"><span id="n-count">0</span>/700</span></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label>نوع الرواية</label>
+          <div class="select-wrap">
+            <select id="n-genre">
+              <option>رومانسية</option>
+              <option>تشويق وإثارة</option>
+              <option>تاريخية</option>
+              <option>خيال علمي</option>
+              <option>بوليسية</option>
+              <option>اجتماعية</option>
+              <option>رعب</option>
+              <option>مغامرة</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>اللغة</label>
+          <div class="select-wrap">
+            <select id="n-lang">
+              <option value="ar">🇸🇦 عربي</option>
+              <option value="en">🇬🇧 English</option>
+              <option value="fr">🇫🇷 Français</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>ما تريد توليده</label>
+        <div class="select-wrap">
+          <select id="n-output">
+            <option value="ملخص وخطة الرواية كاملة">ملخص وخطة الرواية كاملة</option>
+            <option value="الفصل الأول كاملاً">الفصل الأول كاملاً</option>
+            <option value="وصف الشخصيات الرئيسية">وصف الشخصيات الرئيسية</option>
+            <option value="الفصول الرئيسية مع ملخص كل فصل">الفصول الرئيسية مع ملخص كل فصل</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field" style="margin-bottom:0">
+        <label>الشخصيات <span style="color:var(--text-soft);font-weight:400">(اختياري)</span></label>
+        <textarea id="n-chars" rows="2" placeholder="اسم البطل، شخصيته، عمره... "></textarea>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="generate('novel')">📚 توليد الرواية</button>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       4) سيناريو سينمائي
+  ══════════════════════════════════════ -->
+  <div class="tool-panel" id="panel-cinema">
+    <div class="card">
+      <div class="card-title">سيناريو فيلم سينمائي</div>
+      <div class="tip">💡 <span>مثال: «محقق متقاعد يُستدعى لحل جريمة غامضة تربطه بماضيه»</span></div>
+
+      <div class="field">
+        <label>فكرة الفيلم *</label>
+        <textarea id="ci-idea" rows="4" maxlength="700" placeholder="اكتب فكرة الفيلم والصراع الرئيسي..."></textarea>
+        <div class="field-meta"><span class="char-count"><span id="ci-count">0</span>/700</span></div>
+      </div>
+
+      <div class="grid-3">
+        <div class="field">
+          <label>النوع</label>
+          <div class="select-wrap">
+            <select id="ci-genre">
+              <option>دراما</option>
+              <option>أكشن</option>
+              <option>تشويق</option>
+              <option>رعب</option>
+              <option>كوميدي</option>
+              <option>رومانسي</option>
+              <option>خيال علمي</option>
+              <option>تاريخي</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>ما تريد توليده</label>
+          <div class="select-wrap">
+            <select id="ci-output">
+              <option value="Treatment كامل (ملخص تنفيذي)">Treatment كامل</option>
+              <option value="هيكل الفيلم (3 فصول)">هيكل الفيلم (3 فصول)</option>
+              <option value="المشهد الافتتاحي كاملاً">المشهد الافتتاحي</option>
+              <option value="وصف الشخصيات والعلاقات">الشخصيات والعلاقات</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>اللغة</label>
+          <div class="select-wrap">
+            <select id="ci-lang">
+              <option value="ar">🇸🇦 عربي</option>
+              <option value="en">🇬🇧 English</option>
+              <option value="fr">🇫🇷 Français</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field" style="margin-bottom:0">
+        <label>الشخصيات الرئيسية <span style="color:var(--text-soft);font-weight:400">(اختياري)</span></label>
+        <textarea id="ci-chars" rows="2" placeholder="اسم البطل، الشرير، الشخصية الداعمة..."></textarea>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="generate('cinema')">🎥 توليد السيناريو</button>
+  </div>
+
+  <!-- ─── Result ─── -->
+  <div class="result-card" id="resultCard">
+    <div class="result-header">
+      <span class="result-label" id="resultLabel">جاهز</span>
+      <div class="btn-actions">
+        <button class="btn-secondary" onclick="copyOutput()">📋 نسخ</button>
+        <button class="btn-secondary" onclick="regenerate()">🔄 توليد آخر</button>
+      </div>
+    </div>
+    <div class="output-text" id="outputText"></div>
+  </div>
+
+</main>
+
+<script>
+  // ════════════════════════════════
+  // USAGE SYSTEM
+  // ════════════════════════════════
+  const FREE_LIMIT = 5;
+  const PAID_LIMIT = 200;
+
+  function getUsage() {
+    const raw = localStorage.getItem('qisasi_usage');
+    if (!raw) return { count: 0, isPaid: false, paidCount: 0 };
+    return JSON.parse(raw);
+  }
+
+  function saveUsage(data) {
+    localStorage.setItem('qisasi_usage', JSON.stringify(data));
+  }
+
+  function canGenerate() {
+    const u = getUsage();
+    if (u.isPaid) return u.paidCount < PAID_LIMIT;
+    return u.count < FREE_LIMIT;
+  }
+
+  function incrementUsage() {
+    const u = getUsage();
+    if (u.isPaid) { u.paidCount++; }
+    else { u.count++; }
+    saveUsage(u);
+    updateCounter();
+  }
+
+  function updateCounter() {
+    const u = getUsage();
+    const el = document.getElementById('usageCounter');
+    const leftEl = document.getElementById('usageLeft');
+
+    if (u.isPaid) {
+      const left = PAID_LIMIT - u.paidCount;
+      leftEl.textContent = left;
+      el.innerHTML = `✅ متبقي: <span id="usageLeft">${left}</span> / ${PAID_LIMIT}`;
+      el.className = 'usage-counter';
+    } else {
+      const left = FREE_LIMIT - u.count;
+      leftEl && (leftEl.textContent = left);
+      el.innerHTML = `🎁 متبقي: <span id="usageLeft">${left}</span> مجاناً`;
+      el.className = 'usage-counter' + (left <= 2 ? (left === 0 ? ' danger' : ' warning') : '');
+    }
+  }
+
+  // PROMO CODES — أضف أكوادك هنا
+  const VALID_CODES = {
+    'QISASI200': true,
+    'MAGIC2024': true,
+  };
+
+  function activateCode() {
+    const code = document.getElementById('promoInput').value.trim().toUpperCase();
+    const msg  = document.getElementById('promoMsg');
+
+    if (!code) { msg.textContent = 'أدخل الكود أولاً'; msg.className = 'promo-msg err'; return; }
+
+    if (VALID_CODES[code]) {
+      const u = getUsage();
+      u.isPaid = true;
+      u.paidCount = 0;
+      u.usedCode = code;
+      saveUsage(u);
+      updateCounter();
+      document.getElementById('paywall').classList.remove('visible');
+      msg.textContent = '🎉 تم التفعيل! استمتع بـ 200 توليد';
+      msg.className = 'promo-msg ok';
+    } else {
+      msg.textContent = '❌ كود غير صحيح';
+      msg.className = 'promo-msg err';
+    }
+  }
+
+  // ════════════════════════════════
+  // TABS
+  // ════════════════════════════════
+  let currentTab = 'children';
+  let lastAction = null;
+
+  function switchTab(id) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    document.getElementById('panel-' + id).classList.add('active');
+    currentTab = id;
+    document.getElementById('resultCard').classList.remove('visible');
+    document.getElementById('errorBox').classList.remove('visible');
+    document.getElementById('paywall').classList.remove('visible');
+  }
+
+  // ════════════════════════════════
+  // CHAR COUNTERS
+  // ════════════════════════════════
+  const counters = [
+    ['c-idea','c-count'],['ct-idea','ct-count'],
+    ['n-idea','n-count'],['ci-idea','ci-count']
+  ];
+  counters.forEach(([ta, cnt]) => {
+    const el = document.getElementById(ta);
+    if (el) el.addEventListener('input', () => {
+      document.getElementById(cnt).textContent = el.value.length;
+    });
+  });
+
+  // ════════════════════════════════
+  // TOGGLE CHIPS
+  // ════════════════════════════════
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => chip.classList.toggle('active'));
+  });
+
+  function getChips(groupId) {
+    return [...document.querySelectorAll(`#${groupId} .chip.active`)]
+      .map(c => c.dataset.v).join('، ');
+  }
+
+  // ════════════════════════════════
+  // BUILD PROMPT
+  // ════════════════════════════════
+  const langLabel = { ar: 'العربية الفصحى المبسطة', en: 'English', fr: 'Français' };
+
+  function buildPrompt(tool) {
+    const lang = (v) => langLabel[v] || 'العربية';
+
+    if (tool === 'children') {
+      const idea   = document.getElementById('c-idea').value.trim();
+      const age    = document.getElementById('c-age').value;
+      const type   = document.getElementById('c-type').value;
+      const length = document.getElementById('c-length').value;
+      const langV  = document.getElementById('c-lang').value;
+      const values = getChips('c-values');
+      if (!idea) return null;
+      return `أنت كاتب قصص أطفال محترف. اكتب قصة للأطفال في عمر ${age}.
+الفكرة: "${idea}"
+النوع: ${type} | الطول: ${length}${values ? ` | القيمة: ${values}` : ''}
+اللغة: ${lang(langV)} — مناسبة لهذا العمر، شيقة وواضحة.
+ابدأ مباشرة بالقصة بدون عنوان.`;
+    }
+
+    if (tool === 'cartoon') {
+      const idea     = document.getElementById('ct-idea').value.trim();
+      const age      = document.getElementById('ct-age').value;
+      const duration = document.getElementById('ct-duration').value;
+      const langV    = document.getElementById('ct-lang').value;
+      const genre    = getChips('ct-genre');
+      const chars    = document.getElementById('ct-chars').value.trim();
+      if (!idea) return null;
+      return `أنت كاتب سيناريو محترف لأفلام الكرتون. اكتب سيناريو لفيلم كرتوني.
+الفكرة: "${idea}"
+الجمهور: ${age} | المدة: ${duration}${genre ? ` | النوع: ${genre}` : ''}${chars ? `\nالشخصيات: ${chars}` : ''}
+اللغة: ${lang(langV)}
+اكتب: ملخص القصة، الشخصيات الرئيسية، المشاهد الرئيسية (بشكل منظم)، والرسالة.`;
+    }
+
+    if (tool === 'novel') {
+      const idea   = document.getElementById('n-idea').value.trim();
+      const genre  = document.getElementById('n-genre').value;
+      const output = document.getElementById('n-output').value;
+      const langV  = document.getElementById('n-lang').value;
+      const chars  = document.getElementById('n-chars').value.trim();
+      if (!idea) return null;
+      return `أنت روائي محترف. اكتب ${output} لرواية ${genre}.
+الفكرة: "${idea}"${chars ? `\nالشخصيات: ${chars}` : ''}
+اللغة: ${lang(langV)} — أسلوب أدبي راقٍ ومشوق.`;
+    }
+
+    if (tool === 'cinema') {
+      const idea   = document.getElementById('ci-idea').value.trim();
+      const genre  = document.getElementById('ci-genre').value;
+      const output = document.getElementById('ci-output').value;
+      const langV  = document.getElementById('ci-lang').value;
+      const chars  = document.getElementById('ci-chars').value.trim();
+      if (!idea) return null;
+      return `أنت كاتب سيناريو سينمائي محترف. اكتب ${output} لفيلم ${genre}.
+الفكرة: "${idea}"${chars ? `\nالشخصيات: ${chars}` : ''}
+اللغة: ${lang(langV)} — أسلوب سينمائي احترافي.`;
+    }
+
+    return null;
+  }
+
+  // ════════════════════════════════
+  // GENERATE
+  // ════════════════════════════════
+  const resultLabels = {
+    children: '✅ القصة جاهزة',
+    cartoon:  '✅ السيناريو الكرتوني جاهز',
+    novel:    '✅ الرواية جاهزة',
+    cinema:   '✅ السيناريو السينمائي جاهز',
+  };
+
+  async function generate(tool) {
+    // Check usage
+    if (!canGenerate()) {
+      document.getElementById('paywall').classList.add('visible');
+      document.getElementById('paywall').scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
+    const prompt = buildPrompt(tool);
+    if (!prompt) {
+      const ids = { children:'c-idea', cartoon:'ct-idea', novel:'n-idea', cinema:'ci-idea' };
+      const el = document.getElementById(ids[tool]);
+      el.style.borderColor = 'var(--red)';
+      el.focus();
+      setTimeout(() => el.style.borderColor = '', 1800);
+      return;
+    }
+
+    lastAction = tool;
+
+    // UI: start
+    const errorBox  = document.getElementById('errorBox');
+    const resultCard = document.getElementById('resultCard');
+    const loadingBar = document.getElementById('loadingBar');
+    const fill       = document.getElementById('loadingFill');
+
+    errorBox.classList.remove('visible');
+    resultCard.classList.remove('visible');
+
+    // disable all generate buttons
+    document.querySelectorAll('.btn-primary').forEach(b => b.disabled = true);
+
+    // loading bar
+    fill.style.animation = 'none';
+    fill.offsetHeight;
+    fill.style.animation = '';
+    loadingBar.classList.add('active');
+
+    try {
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `خطأ ${res.status}`);
+      }
+
+      const data = await res.json();
+
+      // increment usage
+      incrementUsage();
+
+      // show result
+      document.getElementById('outputText').textContent = data.story;
+      document.getElementById('resultLabel').textContent = resultLabels[tool];
+      resultCard.classList.add('visible');
+      resultCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    } catch (err) {
+      document.getElementById('errorMsg').textContent = err.message || 'حدث خطأ، يرجى المحاولة مرة أخرى.';
+      errorBox.classList.add('visible');
+    } finally {
+      document.querySelectorAll('.btn-primary').forEach(b => b.disabled = false);
+      loadingBar.classList.remove('active');
+    }
+  }
+
+  function regenerate() {
+    if (lastAction) generate(lastAction);
+  }
+
+  async function copyOutput() {
+    const text = document.getElementById('outputText').textContent;
+    const btn = event.currentTarget;
+    try {
+      await navigator.clipboard.writeText(text);
+      btn.textContent = '✅ تم النسخ';
+      setTimeout(() => btn.textContent = '📋 نسخ', 2000);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      btn.textContent = '✅ تم النسخ';
+      setTimeout(() => btn.textContent = '📋 نسخ', 2000);
+    }
+  }
+
+  // init
+  updateCounter();
+</script>
+</body>
+</html>
