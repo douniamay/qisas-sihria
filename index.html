@@ -199,7 +199,7 @@
   </div>
 
   <div class="header-actions">
-    <div class="usage-counter" id="usageCounter">🎁 <span id="usageLeft">5</span> مجاناً</div>
+    <div class="usage-counter" id="usageCounter">🔐 <span>سجّل الدخول لتحصل على 5 توليدات مجانية</span></div>
     <button class="header-btn secondary" type="button" onclick="openAuth('login')">تسجيل الدخول</button>
     <button class="header-btn primary" type="button" onclick="openAuth('register')">إنشاء حساب</button>
   </div>
@@ -211,7 +211,7 @@
     <button class="auth-close" type="button" onclick="closeAuth()">×</button>
     <div class="auth-icon">📖✨</div>
     <h2 id="authTitle">مرحبًا بك في قصص من الخيال</h2>
-    <p class="auth-subtitle">سجّل دخولك أو أنشئ حسابًا لحفظ قصصك وشخصياتك.</p>
+    <p class="auth-subtitle">سجّل دخولك أو أنشئ حسابًا للبدء في توليد قصصك.</p>
     <!-- رابط للتبديل بين الوضعين -->
     <p style="text-align:center;font-size:.88rem;color:#70879a;margin-bottom:1rem;" id="authSwitch"></p>
     <form id="authForm" onsubmit="handleAuth(event)">
@@ -273,8 +273,8 @@
       <div class="plan-description">للبدء وتجربة المنصة</div>
       <ul class="plan-features">
         <li>✨ 5 توليدات مجانية</li>
-        <li>💾 حفظ القصص</li>
-        <li>📚 الوصول إلى المكتبة</li>
+        <li>🌐 جميع أنواع المحتوى</li>
+        <li>🎭 كل الأدوات المتاحة</li>
       </ul>
       <button class="btn-plan" type="button" onclick="document.querySelector('main').scrollIntoView({behavior:'smooth'})">ابدأ مجانًا</button>
     </article>
@@ -286,7 +286,7 @@
       <div class="plan-description">200 توليدة للاستخدام حسب حاجتك</div>
       <ul class="plan-features">
         <li>✨ 200 توليدة</li>
-        <li>💾 حفظ القصص والشخصيات</li>
+        <li>🗣️ ثلاث لغات: عربي، English، Français</li>
         <li>🌐 جميع أنواع المحتوى</li>
         <li>🎭 كل الأدوات المتاحة</li>
       </ul>
@@ -300,8 +300,8 @@
       <div class="plan-price">$50 <small>/ سنويًا</small></div>
       <div class="plan-description">مزايا موسعة للمستخدم المستمر</div>
       <ul class="plan-features">
-        <li>✨ مزايا متقدمة</li>
-        <li>💾 حفظ القصص والشخصيات</li>
+        <li>✨ 2000 توليدة خلال السنة</li>
+        <li>🗣️ ثلاث لغات: عربي، English، Français</li>
         <li>🚀 مزايا جديدة مستقبلًا</li>
         <li>⚡ أولوية في الدعم</li>
       </ul>
@@ -309,7 +309,6 @@
       <a class="btn-plan" href="YOUR_PAYPAL_LINK_HERE" target="_blank" rel="noopener">اشترك في الذهبي 👑</a>
     </article>
   </div>
-  <p class="pricing-note">* الدفع الفعلي يحتاج ربط رابط الدفع/الاشتراك من لوحة الدفع الخاصة بك.</p>
 </section>
 
 <main>
@@ -317,7 +316,7 @@
   <!-- Paywall -->
   <div class="paywall" id="paywall">
     <div class="paywall-icon">🔓</div>
-    <h3>انتهت توليداتك المجانية!</h3>
+    <h3>انتهت توليداتك!</h3>
     <p>اختر خطة واستمر في الإبداع!</p>
     <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin:1.5rem 0;">
       <div style="background:white;border:2px solid var(--border);border-radius:14px;padding:1.5rem;width:200px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.07);">
@@ -341,7 +340,7 @@
     <div class="paywall-features">
       <span class="paywall-feat">✅ كل الأدوات</span>
       <span class="paywall-feat">✅ كل اللغات</span>
-      <span class="paywall-feat">✅ بدون انتهاء</span>
+      <span class="paywall-feat">✅ توليدات إضافية</span>
     </div>
     <p style="margin-top:1rem;font-size:.85rem;color:var(--text-soft);">بعد الدفع ستصلك كود التفعيل على بريدك الإلكتروني</p>
     <div class="promo-section">
@@ -515,7 +514,7 @@
     <div class="result-header">
       <span class="result-label" id="resultLabel">جاهز</span>
       <div class="btn-actions">
-        <button class="btn-secondary" onclick="copyOutput()">📋 نسخ</button>
+        <button class="btn-secondary" onclick="copyOutput(this)">📋 نسخ</button>
         <button class="btn-secondary" onclick="regenerate()">🔄 توليد آخر</button>
       </div>
     </div>
@@ -534,6 +533,7 @@
   const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   const FREE_LIMIT = 5;
   const PAID_LIMIT = 200;
+  const GOLD_LIMIT = 2000;
   let currentUser = null;
   let currentProfile = null;
 
@@ -554,7 +554,7 @@
 
   function remainingGenerations() {
     if (!currentProfile) return FREE_LIMIT;
-    if (currentProfile.plan === 'gold') return Math.max(0, PAID_LIMIT - Number(currentProfile.paid_used || 0));
+    if (currentProfile.plan === 'gold') return Math.max(0, GOLD_LIMIT - Number(currentProfile.paid_used || 0));
     if (currentProfile.plan === 'paid_200') return Math.max(0, PAID_LIMIT - Number(currentProfile.paid_used || 0));
     return Math.max(0, FREE_LIMIT - Number(currentProfile.free_used || 0));
   }
@@ -568,7 +568,7 @@
     const el = document.getElementById('usageCounter');
     if (!el) return;
     if (!currentUser) {
-      el.innerHTML = '🔐 <span>سجّل الدخول</span>';
+      el.innerHTML = '🔐 <span>سجّل الدخول لتحصل على 5 توليدات مجانية</span>';
       el.className = 'usage-counter';
       return;
     }
@@ -651,47 +651,14 @@
   function getChips(id) { return [...document.querySelectorAll(`#${id} .chip.active`)].map(c => c.dataset.v).join('، '); }
 
   // ════════════════════════════════
-  // BUILD PROMPT
+  // COLLECT FIELDS (الـ prompt يُبنى في الخادم)
   // ════════════════════════════════
-  const langLabel = { ar:'العربية الفصحى المبسطة', en:'English', fr:'Français' };
-
-  function buildPrompt(tool) {
-    const lang = v => langLabel[v] || 'العربية';
-    if (tool === 'children') {
-      const idea = document.getElementById('c-idea').value.trim();
-      if (!idea) return null;
-      return `أنت كاتب قصص أطفال محترف. اكتب قصة للأطفال في عمر ${document.getElementById('c-age').value}.
-الفكرة: "${idea}"
-النوع: ${document.getElementById('c-type').value} | الطول: ${document.getElementById('c-length').value}${getChips('c-values') ? ` | القيمة: ${getChips('c-values')}` : ''}
-اللغة: ${lang(document.getElementById('c-lang').value)} — مناسبة لهذا العمر، شيقة وواضحة.
-ابدأ مباشرة بالقصة بدون عنوان.`;
-    }
-    if (tool === 'cartoon') {
-      const idea = document.getElementById('ct-idea').value.trim();
-      if (!idea) return null;
-      const chars = document.getElementById('ct-chars').value.trim();
-      return `أنت كاتب سيناريو محترف لأفلام الكرتون. اكتب سيناريو لفيلم كرتوني.
-الفكرة: "${idea}"
-الجمهور: ${document.getElementById('ct-age').value} | المدة: ${document.getElementById('ct-duration').value}${getChips('ct-genre') ? ` | النوع: ${getChips('ct-genre')}` : ''}${chars ? `\nالشخصيات: ${chars}` : ''}
-اللغة: ${lang(document.getElementById('ct-lang').value)}
-اكتب: ملخص القصة، الشخصيات الرئيسية، المشاهد الرئيسية، والرسالة.`;
-    }
-    if (tool === 'novel') {
-      const idea = document.getElementById('n-idea').value.trim();
-      if (!idea) return null;
-      const chars = document.getElementById('n-chars').value.trim();
-      return `أنت روائي محترف. اكتب ${document.getElementById('n-output').value} لرواية ${document.getElementById('n-genre').value}.
-الفكرة: "${idea}"${chars ? `\nالشخصيات: ${chars}` : ''}
-اللغة: ${lang(document.getElementById('n-lang').value)} — أسلوب أدبي راقٍ ومشوق.`;
-    }
-    if (tool === 'cinema') {
-      const idea = document.getElementById('ci-idea').value.trim();
-      if (!idea) return null;
-      const chars = document.getElementById('ci-chars').value.trim();
-      return `أنت كاتب سيناريو سينمائي محترف. اكتب ${document.getElementById('ci-output').value} لفيلم ${document.getElementById('ci-genre').value}.
-الفكرة: "${idea}"${chars ? `\nالشخصيات: ${chars}` : ''}
-اللغة: ${lang(document.getElementById('ci-lang').value)} — أسلوب سينمائي احترافي.`;
-    }
+  function collectFields(tool) {
+    const v = id => document.getElementById(id)?.value.trim() || '';
+    if (tool === 'children') return { idea:v('c-idea'), age:v('c-age'), type:v('c-type'), length:v('c-length'), lang:v('c-lang'), values:getChips('c-values') };
+    if (tool === 'cartoon')  return { idea:v('ct-idea'), age:v('ct-age'), duration:v('ct-duration'), lang:v('ct-lang'), genre:getChips('ct-genre'), chars:v('ct-chars') };
+    if (tool === 'novel')    return { idea:v('n-idea'), genre:v('n-genre'), output:v('n-output'), lang:v('n-lang'), chars:v('n-chars') };
+    if (tool === 'cinema')   return { idea:v('ci-idea'), genre:v('ci-genre'), output:v('ci-output'), lang:v('ci-lang'), chars:v('ci-chars') };
     return null;
   }
 
@@ -710,8 +677,8 @@
       document.getElementById('paywall').scrollIntoView({ behavior:'smooth' });
       return;
     }
-    const prompt = buildPrompt(tool);
-    if (!prompt) {
+    const fields = collectFields(tool);
+    if (!fields || !fields.idea) {
       const ids = { children:'c-idea', cartoon:'ct-idea', novel:'n-idea', cinema:'ci-idea' };
       const el = document.getElementById(ids[tool]);
       el.style.borderColor = 'var(--red)'; el.focus();
@@ -734,9 +701,13 @@
       const res = await fetch('/api/generate', {
         method:'POST',
         headers:{'Content-Type':'application/json','Authorization':`Bearer ${session.access_token}`},
-        body: JSON.stringify({ prompt, tool, language: document.getElementById(tool === 'children' ? 'c-lang' : tool === 'cartoon' ? 'ct-lang' : tool === 'novel' ? 'n-lang' : 'ci-lang')?.value || 'ar' })
+        body: JSON.stringify({ tool, fields })
       });
-      if (!res.ok) { const err = await res.json().catch(()=>({})); throw new Error(err.error || `خطأ ${res.status}`); }
+      if (!res.ok) {
+        const err = await res.json().catch(()=>({}));
+        if (res.status === 402) document.getElementById('paywall').classList.add('visible');
+        throw new Error(err.error || `خطأ ${res.status}`);
+      }
       const data = await res.json();
       await loadProfile();
       document.getElementById('outputText').textContent = data.story;
@@ -754,9 +725,8 @@
 
   function regenerate() { if (lastAction) generate(lastAction); }
 
-  async function copyOutput() {
+  async function copyOutput(btn) {
     const text = document.getElementById('outputText').textContent;
-    const btn = event.currentTarget;
     try {
       await navigator.clipboard.writeText(text);
       btn.textContent = '✅ تم النسخ';
