@@ -95,7 +95,7 @@ module.exports = async (req, res) => {
     const story = (data.candidates?.[0]?.content?.parts || []).map(p => p.text || '').join('').trim();
     if (!story) throw new Error('empty');
     return res.status(200).json({ story });
-  } catch (e) {
+   } catch (e) {
     console.error('generate failed:', e.message);
     // إعادة التوليدة المحجوزة عند الفشل
     await admin.from('profiles').update({ [col]: used }).eq('id', user.id);
