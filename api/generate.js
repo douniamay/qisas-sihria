@@ -2,8 +2,8 @@ const { admin, getUser } = require('./_lib');
 
 const LIMITS = { free: 5, paid_200: 200, gold: 2000 };
 const LANGS = { ar: 'العربية الفصحى', en: 'English', fr: 'Français' };
-const MAX_TOKENS = { children: 1500, cartoon: 4000, novel: 4000, cinema: 4000 };
-const MODEL = process.env.AI_MODEL || 'claude-sonnet-5-5';
+const MAX_TOKENS = { children: 4096, cartoon: 8192, novel: 8192, cinema: 8192 };
+const MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
 
 const clip = (v, n) => String(v ?? '').trim().slice(0, n);
 
@@ -73,23 +73,26 @@ module.exports = async (req, res) => {
   if (!reserved?.length) return res.status(409).json({ error: 'حاول مرة أخرى.' });
 
   try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        max_tokens: MAX_TOKENS[tool],
-        system: 'أنت كاتب مبدع. أعد النص المطلوب فقط دون مقدمات أو تعليقات، وبدون رموز Markdown.',
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
+    const r = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`,
+      {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'x-goog-api-key': process.env.GEMINI_API_KEY
+        },
+        body: JSON.stringify({
+          systemInstruction: {
+            parts: [{ text: 'أنت كاتب مبدع. أعد النص المطلوب فقط دون مقدمات أو تعليقات، وبدون رموز Markdown.' }]
+          },
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          generationConfig: { maxOutputTokens: MAX_TOKENS[tool], temperature: 0.9 }
+        })
+      }
+    );
     const data = await r.json();
     if (!r.ok) throw new Error(data?.error?.message || 'AI error');
-    const story = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n').trim();
+    const story = (data.candidates?.[0]?.content?.parts || []).map(p => p.text || '').join('').trim();
     if (!story) throw new Error('empty');
     return res.status(200).json({ story });
   } catch (e) {
