@@ -99,6 +99,6 @@ module.exports = async (req, res) => {
     console.error('generate failed:', e.message);
     // إعادة التوليدة المحجوزة عند الفشل
     await admin.from('profiles').update({ [col]: used }).eq('id', user.id);
-    return res.status(502).json({ error: 'تعذّر توليد النص الآن، حاول بعد قليل.' });
+       return res.status(502).json({ error: 'تعذّر توليد النص الآن: ' + e.message }); 'تعذّر توليد النص الآن، حاول بعد قليل.' });
   }
 };
