@@ -311,41 +311,10 @@ module.exports = async (req, res) => {
         story
       });
 
-    } catch (aiError) {
-      console.error(
-        'AI generation failed:',
-        aiError?.message || aiError
-      );
+   } catch (error) {
+  console.error('GENERATE FUNCTION ERROR:', error);
 
-      // إعادة التوليدة عند فشل Gemini
-      const {
-        error: rollbackError
-      } = await admin
-        .from('profiles')
-        .update({
-          [column]: used
-        })
-        .eq('id', user.id);
-
-      if (rollbackError) {
-        console.error(
-          'Rollback error:',
-          rollbackError
-        );
-      }
-
-      return res.status(502).json({
-        error:
-          'تعذّر توليد النص الآن. حاول مرة أخرى بعد قليل.'
-      });
-    }
-
-  } catch (error) {
-    console.error(
-      'GENERATE FUNCTION ERROR:',
-      error?.message || error
-    );
-
-   return res.status(502).json({
-  error: 'Gemini: ' + (aiError?.message || 'خطأ غير معروف')
-});
+  return res.status(500).json({
+    error: 'SERVER ERROR: ' + (error?.message || String(error))
+  });
+}
