@@ -346,9 +346,6 @@ module.exports = async (req, res) => {
       error?.message || error
     );
 
-    return res.status(500).json({
-      error:
-        'حدث خطأ داخلي أثناء التوليد. حاول مرة أخرى.'
-    });
-  }
-};
+   return res.status(502).json({
+  error: 'Gemini: ' + (aiError?.message || 'خطأ غير معروف')
+});
