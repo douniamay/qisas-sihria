@@ -199,7 +199,7 @@
   </div>
 
   <div class="header-actions">
-    <div class="usage-counter" id="usageCounter">🔐 <span>سجّل الدخول لتحصل على 5 توليدات مجانية</span></div>
+    <div class="usage-counter" id="usageCounter">🎁 <span id="usageLeft">5</span> مجاناً</div>
     <button class="header-btn secondary" type="button" onclick="openAuth('login')">تسجيل الدخول</button>
     <button class="header-btn primary" type="button" onclick="openAuth('register')">إنشاء حساب</button>
   </div>
@@ -211,33 +211,22 @@
     <button class="auth-close" type="button" onclick="closeAuth()">×</button>
     <div class="auth-icon">📖✨</div>
     <h2 id="authTitle">مرحبًا بك في قصص من الخيال</h2>
-    <p class="auth-subtitle">سجّل دخولك أو أنشئ حسابًا للبدء في توليد قصصك.</p>
+    <p class="auth-subtitle">سجّل دخولك أو أنشئ حسابًا لحفظ قصصك وشخصياتك.</p>
     <!-- رابط للتبديل بين الوضعين -->
     <p style="text-align:center;font-size:.88rem;color:#70879a;margin-bottom:1rem;" id="authSwitch"></p>
-    <form id="authForm" onsubmit="handleAuth(event)" autocomplete="on">
+    <form id="authForm" onsubmit="handleAuth(event)">
       <div class="auth-field" id="nameField" hidden>
-        <label for="authName">الاسم الكامل</label>
-        <input id="authName" type="text" autocomplete="name" placeholder="اكتب اسمك الكامل">
-      </div>
-      <div class="auth-field" id="userField" hidden>
-        <label for="authUser">اسم المستخدم</label>
-        <input id="authUser" type="text" dir="ltr" autocomplete="username" maxlength="20" placeholder="حروف إنجليزية وأرقام فقط، مثل: fatiha_26">
-      </div>
-      <div class="auth-field" id="phoneField" hidden>
-        <label for="authPhone">رقم الهاتف</label>
-        <input id="authPhone" type="tel" dir="ltr" autocomplete="tel" placeholder="0555 00 00 00">
+        <label for="authName">الاسم</label>
+        <input id="authName" type="text" autocomplete="name" placeholder="اكتب اسمك">
       </div>
       <div class="auth-field">
-        <label for="authEmail" id="emailLabel">اسم المستخدم أو البريد الإلكتروني</label>
-        <input id="authEmail" type="text" dir="ltr" required autocomplete="email" placeholder="اسم المستخدم أو البريد">
+        <label for="authEmail">البريد الإلكتروني</label>
+        <input id="authEmail" type="email" required placeholder="example@email.com">
       </div>
       <div class="auth-field">
         <label for="authPassword">كلمة المرور</label>
-        <input id="authPassword" type="password" minlength="6" required autocomplete="current-password" placeholder="6 أحرف على الأقل">
+        <input id="authPassword" type="password" minlength="6" required placeholder="6 أحرف على الأقل">
       </div>
-      <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;margin:.1rem 0 .8rem;font-size:.85rem;font-weight:700;color:#31566f;">
-        <input type="checkbox" id="showPass" onchange="togglePass()" style="width:auto;height:auto;"> إظهار كلمة المرور
-      </label>
       <div style="text-align:center;margin:.2rem 0 .8rem;"><a href="#" onclick="resetPassword();return false;" style="color:#1688e8;font-size:.82rem;font-weight:700;">نسيت كلمة المرور؟</a></div>
       <button class="auth-submit" id="authSubmit" type="submit">تسجيل الدخول</button>
       <div class="auth-message" id="authMessage"></div>
@@ -284,8 +273,8 @@
       <div class="plan-description">للبدء وتجربة المنصة</div>
       <ul class="plan-features">
         <li>✨ 5 توليدات مجانية</li>
-        <li>🌐 جميع أنواع المحتوى</li>
-        <li>🎭 كل الأدوات المتاحة</li>
+        <li>💾 حفظ القصص</li>
+        <li>📚 الوصول إلى المكتبة</li>
       </ul>
       <button class="btn-plan" type="button" onclick="document.querySelector('main').scrollIntoView({behavior:'smooth'})">ابدأ مجانًا</button>
     </article>
@@ -297,7 +286,7 @@
       <div class="plan-description">200 توليدة للاستخدام حسب حاجتك</div>
       <ul class="plan-features">
         <li>✨ 200 توليدة</li>
-        <li>🗣️ ثلاث لغات: عربي، English، Français</li>
+        <li>💾 حفظ القصص والشخصيات</li>
         <li>🌐 جميع أنواع المحتوى</li>
         <li>🎭 كل الأدوات المتاحة</li>
       </ul>
@@ -311,8 +300,8 @@
       <div class="plan-price">$50 <small>/ سنويًا</small></div>
       <div class="plan-description">مزايا موسعة للمستخدم المستمر</div>
       <ul class="plan-features">
-        <li>✨ 2000 توليدة خلال السنة</li>
-        <li>🗣️ ثلاث لغات: عربي، English، Français</li>
+        <li>✨ مزايا متقدمة</li>
+        <li>💾 حفظ القصص والشخصيات</li>
         <li>🚀 مزايا جديدة مستقبلًا</li>
         <li>⚡ أولوية في الدعم</li>
       </ul>
@@ -320,6 +309,7 @@
       <a class="btn-plan" href="YOUR_PAYPAL_LINK_HERE" target="_blank" rel="noopener">اشترك في الذهبي 👑</a>
     </article>
   </div>
+  <p class="pricing-note">* الدفع الفعلي يحتاج ربط رابط الدفع/الاشتراك من لوحة الدفع الخاصة بك.</p>
 </section>
 
 <main>
@@ -327,7 +317,7 @@
   <!-- Paywall -->
   <div class="paywall" id="paywall">
     <div class="paywall-icon">🔓</div>
-    <h3>انتهت توليداتك!</h3>
+    <h3>انتهت توليداتك المجانية!</h3>
     <p>اختر خطة واستمر في الإبداع!</p>
     <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin:1.5rem 0;">
       <div style="background:white;border:2px solid var(--border);border-radius:14px;padding:1.5rem;width:200px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.07);">
@@ -351,7 +341,7 @@
     <div class="paywall-features">
       <span class="paywall-feat">✅ كل الأدوات</span>
       <span class="paywall-feat">✅ كل اللغات</span>
-      <span class="paywall-feat">✅ توليدات إضافية</span>
+      <span class="paywall-feat">✅ بدون انتهاء</span>
     </div>
     <p style="margin-top:1rem;font-size:.85rem;color:var(--text-soft);">بعد الدفع ستصلك كود التفعيل على بريدك الإلكتروني</p>
     <div class="promo-section">
@@ -525,7 +515,7 @@
     <div class="result-header">
       <span class="result-label" id="resultLabel">جاهز</span>
       <div class="btn-actions">
-        <button class="btn-secondary" onclick="copyOutput(this)">📋 نسخ</button>
+        <button class="btn-secondary" onclick="copyOutput()">📋 نسخ</button>
         <button class="btn-secondary" onclick="regenerate()">🔄 توليد آخر</button>
       </div>
     </div>
@@ -539,12 +529,11 @@
   // PRODUCTION BACKEND CONFIG
   // ════════════════════════════════
   // ضع بيانات مشروع Supabase العامة هنا (anon key فقط، وليس service_role).
-  const SUPABASE_URL = 'https://vtxkrombzmzlmjdgowji.supabase.co';
-  const SUPABASE_ANON_KEY = 'sb_publishable_XxouAuet7jFFGDYp3zwhWw_UWgOZnf3';
+  const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+  const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
   const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   const FREE_LIMIT = 5;
   const PAID_LIMIT = 200;
-  const GOLD_LIMIT = 2000;
   let currentUser = null;
   let currentProfile = null;
 
@@ -565,7 +554,7 @@
 
   function remainingGenerations() {
     if (!currentProfile) return FREE_LIMIT;
-    if (currentProfile.plan === 'gold') return Math.max(0, GOLD_LIMIT - Number(currentProfile.paid_used || 0));
+    if (currentProfile.plan === 'gold') return Math.max(0, PAID_LIMIT - Number(currentProfile.paid_used || 0));
     if (currentProfile.plan === 'paid_200') return Math.max(0, PAID_LIMIT - Number(currentProfile.paid_used || 0));
     return Math.max(0, FREE_LIMIT - Number(currentProfile.free_used || 0));
   }
@@ -579,7 +568,7 @@
     const el = document.getElementById('usageCounter');
     if (!el) return;
     if (!currentUser) {
-      el.innerHTML = '🔐 <span>سجّل الدخول لتحصل على 5 توليدات مجانية</span>';
+      el.innerHTML = '🔐 <span>سجّل الدخول</span>';
       el.className = 'usage-counter';
       return;
     }
@@ -662,14 +651,47 @@
   function getChips(id) { return [...document.querySelectorAll(`#${id} .chip.active`)].map(c => c.dataset.v).join('، '); }
 
   // ════════════════════════════════
-  // COLLECT FIELDS (الـ prompt يُبنى في الخادم)
+  // BUILD PROMPT
   // ════════════════════════════════
-  function collectFields(tool) {
-    const v = id => document.getElementById(id)?.value.trim() || '';
-    if (tool === 'children') return { idea:v('c-idea'), age:v('c-age'), type:v('c-type'), length:v('c-length'), lang:v('c-lang'), values:getChips('c-values') };
-    if (tool === 'cartoon')  return { idea:v('ct-idea'), age:v('ct-age'), duration:v('ct-duration'), lang:v('ct-lang'), genre:getChips('ct-genre'), chars:v('ct-chars') };
-    if (tool === 'novel')    return { idea:v('n-idea'), genre:v('n-genre'), output:v('n-output'), lang:v('n-lang'), chars:v('n-chars') };
-    if (tool === 'cinema')   return { idea:v('ci-idea'), genre:v('ci-genre'), output:v('ci-output'), lang:v('ci-lang'), chars:v('ci-chars') };
+  const langLabel = { ar:'العربية الفصحى المبسطة', en:'English', fr:'Français' };
+
+  function buildPrompt(tool) {
+    const lang = v => langLabel[v] || 'العربية';
+    if (tool === 'children') {
+      const idea = document.getElementById('c-idea').value.trim();
+      if (!idea) return null;
+      return `أنت كاتب قصص أطفال محترف. اكتب قصة للأطفال في عمر ${document.getElementById('c-age').value}.
+الفكرة: "${idea}"
+النوع: ${document.getElementById('c-type').value} | الطول: ${document.getElementById('c-length').value}${getChips('c-values') ? ` | القيمة: ${getChips('c-values')}` : ''}
+اللغة: ${lang(document.getElementById('c-lang').value)} — مناسبة لهذا العمر، شيقة وواضحة.
+ابدأ مباشرة بالقصة بدون عنوان.`;
+    }
+    if (tool === 'cartoon') {
+      const idea = document.getElementById('ct-idea').value.trim();
+      if (!idea) return null;
+      const chars = document.getElementById('ct-chars').value.trim();
+      return `أنت كاتب سيناريو محترف لأفلام الكرتون. اكتب سيناريو لفيلم كرتوني.
+الفكرة: "${idea}"
+الجمهور: ${document.getElementById('ct-age').value} | المدة: ${document.getElementById('ct-duration').value}${getChips('ct-genre') ? ` | النوع: ${getChips('ct-genre')}` : ''}${chars ? `\nالشخصيات: ${chars}` : ''}
+اللغة: ${lang(document.getElementById('ct-lang').value)}
+اكتب: ملخص القصة، الشخصيات الرئيسية، المشاهد الرئيسية، والرسالة.`;
+    }
+    if (tool === 'novel') {
+      const idea = document.getElementById('n-idea').value.trim();
+      if (!idea) return null;
+      const chars = document.getElementById('n-chars').value.trim();
+      return `أنت روائي محترف. اكتب ${document.getElementById('n-output').value} لرواية ${document.getElementById('n-genre').value}.
+الفكرة: "${idea}"${chars ? `\nالشخصيات: ${chars}` : ''}
+اللغة: ${lang(document.getElementById('n-lang').value)} — أسلوب أدبي راقٍ ومشوق.`;
+    }
+    if (tool === 'cinema') {
+      const idea = document.getElementById('ci-idea').value.trim();
+      if (!idea) return null;
+      const chars = document.getElementById('ci-chars').value.trim();
+      return `أنت كاتب سيناريو سينمائي محترف. اكتب ${document.getElementById('ci-output').value} لفيلم ${document.getElementById('ci-genre').value}.
+الفكرة: "${idea}"${chars ? `\nالشخصيات: ${chars}` : ''}
+اللغة: ${lang(document.getElementById('ci-lang').value)} — أسلوب سينمائي احترافي.`;
+    }
     return null;
   }
 
@@ -688,8 +710,8 @@
       document.getElementById('paywall').scrollIntoView({ behavior:'smooth' });
       return;
     }
-    const fields = collectFields(tool);
-    if (!fields || !fields.idea) {
+    const prompt = buildPrompt(tool);
+    if (!prompt) {
       const ids = { children:'c-idea', cartoon:'ct-idea', novel:'n-idea', cinema:'ci-idea' };
       const el = document.getElementById(ids[tool]);
       el.style.borderColor = 'var(--red)'; el.focus();
@@ -712,13 +734,9 @@
       const res = await fetch('/api/generate', {
         method:'POST',
         headers:{'Content-Type':'application/json','Authorization':`Bearer ${session.access_token}`},
-        body: JSON.stringify({ tool, fields })
+        body: JSON.stringify({ prompt, tool, language: document.getElementById(tool === 'children' ? 'c-lang' : tool === 'cartoon' ? 'ct-lang' : tool === 'novel' ? 'n-lang' : 'ci-lang')?.value || 'ar' })
       });
-      if (!res.ok) {
-        const err = await res.json().catch(()=>({}));
-        if (res.status === 402) document.getElementById('paywall').classList.add('visible');
-        throw new Error(err.error || `خطأ ${res.status}`);
-      }
+      if (!res.ok) { const err = await res.json().catch(()=>({})); throw new Error(err.error || `خطأ ${res.status}`); }
       const data = await res.json();
       await loadProfile();
       document.getElementById('outputText').textContent = data.story;
@@ -736,8 +754,9 @@
 
   function regenerate() { if (lastAction) generate(lastAction); }
 
-  async function copyOutput(btn) {
+  async function copyOutput() {
     const text = document.getElementById('outputText').textContent;
+    const btn = event.currentTarget;
     try {
       await navigator.clipboard.writeText(text);
       btn.textContent = '✅ تم النسخ';
@@ -765,20 +784,11 @@
     document.getElementById('authMessage').textContent='';
     document.getElementById('authForm').reset();
   }
-  const USER_RE = /^[A-Za-z0-9_.]{3,20}$/;
-  function togglePass() {
-    document.getElementById('authPassword').type = document.getElementById('showPass').checked ? 'text' : 'password';
-  }
   function setAuthMode(mode) {
     authMode=mode;
     const reg=mode==='register';
-    ['nameField','userField','phoneField'].forEach(id => document.getElementById(id).hidden = !reg);
-    ['authName','authUser','authPhone'].forEach(id => document.getElementById(id).required = reg);
-    document.getElementById('emailLabel').textContent = reg ? 'البريد الإلكتروني (Gmail)' : 'اسم المستخدم أو البريد الإلكتروني';
-    document.getElementById('authEmail').placeholder = reg ? 'example@gmail.com' : 'اسم المستخدم أو البريد';
-    document.getElementById('authPassword').autocomplete = reg ? 'new-password' : 'current-password';
-    document.getElementById('authPassword').type = 'password';
-    document.getElementById('showPass').checked = false;
+    document.getElementById('nameField').hidden=!reg;
+    document.getElementById('authName').required=reg;
     document.getElementById('authSubmit').textContent=reg?'إنشاء الحساب':'تسجيل الدخول';
     document.getElementById('authTitle').textContent=reg?'إنشاء حساب جديد':'تسجيل الدخول';
     document.getElementById('authMessage').textContent='';
@@ -788,27 +798,18 @@
 
   async function handleAuth(e) {
     e.preventDefault();
-    const idf=document.getElementById('authEmail').value.trim();
+    const name=document.getElementById('authName').value.trim();
+    const email=document.getElementById('authEmail').value.trim().toLowerCase();
     const password=document.getElementById('authPassword').value;
     const msg=document.getElementById('authMessage');
     msg.className='auth-message';
     msg.textContent='جاري المعالجة...';
     try {
       if (authMode==='register') {
-        const name=document.getElementById('authName').value.trim();
-        const user=document.getElementById('authUser').value.trim().toLowerCase();
-        const phone=document.getElementById('authPhone').value.trim();
-        const email=idf.toLowerCase();
-        if (!name) throw new Error('اكتب اسمك الكامل.');
-        if (!USER_RE.test(user)) throw new Error('اسم المستخدم: 3 إلى 20 حرفًا إنجليزيًا أو رقمًا أو _ أو .');
-        if (!/^\+?[0-9\s]{8,15}$/.test(phone)) throw new Error('رقم الهاتف غير صحيح.');
-        if (!email.includes('@')) throw new Error('اكتب بريدك الإلكتروني بشكل صحيح.');
-        const { data:free, error:aErr } = await sb.rpc('username_available', { uname:user });
-        if (aErr) throw aErr;
-        if (!free) throw new Error('اسم المستخدم مستعمل، اختر اسمًا آخر.');
+        if (!name) throw new Error('اكتب اسمك.');
         const { data, error } = await sb.auth.signUp({
           email, password,
-          options:{ data:{ full_name:name, username:user, phone }, emailRedirectTo:window.location.origin + window.location.pathname }
+          options:{ data:{ full_name:name }, emailRedirectTo:window.location.origin + window.location.pathname }
         });
         if (error) throw error;
         if (data.session) {
@@ -821,21 +822,10 @@
           msg.className='auth-message ok';
         }
       } else {
-        if (idf.includes('@')) {
-          const { error } = await sb.auth.signInWithPassword({ email:idf.toLowerCase(), password });
-          if (error) throw error;
-        } else {
-          const res = await fetch('/api/login', {
-            method:'POST', headers:{'Content-Type':'application/json'},
-            body: JSON.stringify({ username:idf.toLowerCase(), password })
-          });
-          const out = await res.json().catch(()=>({}));
-          if (!res.ok) throw new Error(out.error || 'تعذّر تسجيل الدخول.');
-          const { error } = await sb.auth.setSession({ access_token:out.session.access_token, refresh_token:out.session.refresh_token });
-          if (error) throw error;
-        }
+        const { error } = await sb.auth.signInWithPassword({email,password});
+        if (error) throw error;
         await loadProfile();
-        msg.textContent=`مرحبًا ${currentProfile?.full_name || idf} 👋`;
+        msg.textContent=`مرحبًا ${currentProfile?.full_name || email} 👋`;
         msg.className='auth-message ok';
         setTimeout(closeAuth,700);
       }
@@ -843,8 +833,7 @@
       const map={
         'Invalid login credentials':'البريد أو كلمة المرور غير صحيحة.',
         'Email not confirmed':'يجب تأكيد بريدك الإلكتروني أولاً. افتح رسالة التأكيد ثم حاول الدخول.',
-        'User already registered':'هذا البريد مسجل بالفعل.',
-        'Database error saving new user':'تعذّر إنشاء الحساب، قد يكون اسم المستخدم أو البريد مستعملًا.'
+        'User already registered':'هذا البريد مسجل بالفعل.'
       };
       msg.textContent=map[err.message] || err.message || 'حدث خطأ، حاول مرة أخرى.';
       msg.className='auth-message err';
@@ -854,7 +843,7 @@
   async function resetPassword() {
     const email=document.getElementById('authEmail').value.trim().toLowerCase();
     const msg=document.getElementById('authMessage');
-    if (!email || !email.includes('@')) { msg.textContent='اكتب بريدك الإلكتروني أولاً.'; msg.className='auth-message err'; return; }
+    if (!email) { msg.textContent='اكتب بريدك الإلكتروني أولاً.'; msg.className='auth-message err'; return; }
     const { error }=await sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+window.location.pathname});
     if (error) { msg.textContent=error.message; msg.className='auth-message err'; return; }
     msg.textContent='📧 أرسلنا رابط استرجاع كلمة المرور إلى بريدك الإلكتروني.'; msg.className='auth-message ok';
