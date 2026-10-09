@@ -699,9 +699,29 @@
   // GENERATE
   // ════════════════════════════════
   const resultLabels = { children:'✅ القصة جاهزة', cartoon:'✅ السيناريو الكرتوني جاهز', novel:'✅ الرواية جاهزة', cinema:'✅ السيناريو السينمائي جاهز' };
-
+function buildFields(tool) {
+  const v = id => document.getElementById(id)?.value.trim() || '';
+  if (tool === 'children') return {
+    idea: v('c-idea'), age: v('c-age'), type: v('c-type'),
+    length: v('c-length'), values: getChips('c-values'), lang: v('c-lang')
+  };
+  if (tool === 'cartoon') return {
+    idea: v('ct-idea'), age: v('ct-age'), duration: v('ct-duration'),
+    genre: getChips('ct-genre'), chars: v('ct-chars'), lang: v('ct-lang')
+  };
+  if (tool === 'novel') return {
+    idea: v('n-idea'), genre: v('n-genre'), output: v('n-output'),
+    chars: v('n-chars'), lang: v('n-lang')
+  };
+  return {
+    idea: v('ci-idea'), genre: v('ci-genre'), output: v('ci-output'),
+    chars: v('ci-chars'), lang: v('ci-lang')
+  };
+}
+ 
+  
   async function generate(tool) {
-    if (!currentUser) {
+     if (!currentUser) {
       openAuth('login');
       return;
     }
@@ -734,7 +754,7 @@
       const res = await fetch('/api/generate', {
         method:'POST',
         headers:{'Content-Type':'application/json','Authorization':`Bearer ${session.access_token}`},
-        body: JSON.stringify({ prompt, tool, language: document.getElementById(tool === 'children' ? 'c-lang' : tool === 'cartoon' ? 'ct-lang' : tool === 'novel' ? 'n-lang' : 'ci-lang')?.value || 'ar' })
+       body: JSON.stringify({ tool, fields: buildFields(tool) })
       });
       if (!res.ok) { const err = await res.json().catch(()=>({})); throw new Error(err.error || `خطأ ${res.status}`); }
       const data = await res.json();
