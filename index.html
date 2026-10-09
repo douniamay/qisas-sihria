@@ -750,7 +750,7 @@ function buildFields(tool) {
     loadingBar.classList.add('active');
     try {
       const { data: { session } } = await sb.auth.getSession();
-      if (!session) throw new Error('انتهت جلسة الدخول، يرجى تسجيل الدخول من جديد.');
+      if (!session) throw new Error('انتهت جلسة الدخول، يرجى تسجيل الدخول من جديد.'); 
       const res = await fetch('/api/generate', {
         method:'POST',
         headers:{'Content-Type':'application/json','Authorization':`Bearer ${session.access_token}`},
